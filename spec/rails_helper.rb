@@ -18,6 +18,8 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Helpers::Requests, type: :request
   config.include Helpers::RequestExpectations, type: :request
+  config.include Helpers::Serializers, type: :request
+  config.include Helpers::Serializers, type: :serializer
 end
 
 include Helpers::FileUploads

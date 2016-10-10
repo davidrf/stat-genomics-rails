@@ -4,5 +4,6 @@ Rails.application.routes.draw do
     header: { name: "Accept", value: Mime[:v1] },
     defaults: { format: :json }
   ) do
+    resources :users, only: [:show, :create]
   end
 end
