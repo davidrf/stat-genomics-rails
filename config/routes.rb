@@ -5,5 +5,6 @@ Rails.application.routes.draw do
     defaults: { format: :json }
   ) do
     resources :users, only: [:show, :create]
+    resources :authentications, only: :create
   end
 end
