@@ -4,6 +4,7 @@ ruby "2.3.1"
 
 gem "active_model_serializers", "~> 0.10.0"
 gem "bcrypt", "~> 3.1.7"
+gem "closure_tree"
 gem "delayed_job_active_record"
 gem "jwt"
 gem "pg", "~> 0.18"

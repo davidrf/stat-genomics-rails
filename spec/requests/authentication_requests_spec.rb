@@ -17,7 +17,7 @@ RSpec.describe "Authentication requests" do
       it "returns an ok response" do
         post(
           authentications_url,
-          headers: accept_header_v1,
+          headers: accept_header(:v1),
           params: authentication_params,
           as: :json
         )
@@ -35,7 +35,7 @@ RSpec.describe "Authentication requests" do
       it "returns a bad request response" do
         post(
           authentications_url,
-          headers: accept_header_v1,
+          headers: accept_header(:v1),
           params: authentication_params,
           as: :json
         )
@@ -52,7 +52,7 @@ RSpec.describe "Authentication requests" do
       it "returns a bad request response" do
         post(
           authentications_url,
-          headers: accept_header_v1,
+          headers: accept_header(:v1),
           params: authentication_params,
           as: :json
         )
