@@ -26,7 +26,6 @@ RSpec.describe "User requests" do
         expect(response).to have_http_status :created
         created_user_id = parsed_body.dig("authentication", "user", "id")
         created_user = User.find(created_user_id)
-        binding.pry
         expect(response.location).to eq user_url(created_user)
         expect(parsed_body).to match(
           "authentication" => expected_authentication_hash(created_user)

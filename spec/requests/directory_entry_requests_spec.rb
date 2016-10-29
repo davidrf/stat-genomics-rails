@@ -6,7 +6,7 @@ RSpec.describe "Directory entry requests" do
       let(:directory_entry) { create(:directory_entry) }
       let(:user) { directory_entry.user }
 
-      it "returns a no content response" do
+      it "returns an ok response" do
         get(
           folder_url(directory_entry),
           headers: authorization_headers(:v1, user)
@@ -25,7 +25,7 @@ RSpec.describe "Directory entry requests" do
       end
       let(:user) { directory_entry.user }
 
-      it "returns a no content response" do
+      it "returns an ok response" do
         get(
           folder_url(directory_entry),
           headers: authorization_headers(:v1, user)
@@ -45,7 +45,7 @@ RSpec.describe "Directory entry requests" do
       let(:non_home_directory) { home_directory.children.first }
       let(:user) { home_directory.user }
 
-      it "returns a no content response" do
+      it "returns an ok response" do
         get(
           folder_url(non_home_directory),
           headers: authorization_headers(:v1, user)
@@ -55,6 +55,85 @@ RSpec.describe "Directory entry requests" do
         expect(parsed_body).to match(
           "folder" => expected_directory_entry_hash(non_home_directory)
         )
+      end
+    end
+  end
+
+  describe "POST /folders" do
+    let(:directory_entry) { build(:directory_entry) }
+    let(:user) { create :user }
+    let(:user_home_directory_entry) { user.root_directory_entry }
+
+    context "valid attributes" do
+      let(:folder_attributes) do
+        {
+          folder: {
+            name: directory_entry.name,
+            parent_id: user_home_directory_entry.id
+          }
+        }
+      end
+
+      it "returns a created response" do
+        post(
+          folders_url,
+          headers: authorization_headers(:v1, user),
+          params: folder_attributes,
+          as: :json
+        )
+
+        expect(response).to have_http_status :created
+        new_directory_entry = DirectoryEntry.find_by(folder_attributes[:folder])
+        expect(parsed_body).to match(
+          "folder" => expected_directory_entry_hash(new_directory_entry)
+        )
+      end
+    end
+
+    context "invalid attributes" do
+      let(:folder_attributes) do
+        {
+          folder: {
+            name: nil,
+            parent: nil
+          }
+        }
+      end
+
+      it "returns an unprocessable entity response" do
+        post(
+          folders_url,
+          headers: authorization_headers(:v1, user),
+          params: folder_attributes,
+          as: :json
+        )
+
+        expect(response).to have_http_status :unprocessable_entity
+        expect(parsed_body).to match(
+          "name" => ["can't be blank"]
+        )
+      end
+    end
+
+    context "unauthenticated user" do
+      let(:folder_attributes) do
+        {
+          folder: {
+            name: directory_entry.name,
+            parent_id: user_home_directory_entry.id
+          }
+        }
+      end
+
+      it "returns an unauthorized response" do
+        post(
+          folders_url,
+          headers: accept_header(:v1),
+          params: folder_attributes,
+          as: :json
+        )
+
+        expect(response).to have_http_status :unauthorized
       end
     end
   end
