@@ -15,10 +15,10 @@ RSpec.describe "User requests" do
     context "valid information" do
       let(:user) { build(:user) }
 
-      it "returns a no content response" do
+      it "returns a created response" do
         post(
           users_url,
-          headers: accept_header_v1,
+          headers: accept_header(:v1),
           params: user_attributes,
           as: :json
         )
@@ -39,7 +39,7 @@ RSpec.describe "User requests" do
       it "returns an unprocessable entity response" do
         post(
           users_url,
-          headers: accept_header_v1,
+          headers: accept_header(:v1),
           params: user_attributes,
           as: :json
         )
@@ -57,7 +57,7 @@ RSpec.describe "User requests" do
       it "returns error messages" do
         post(
           users_url,
-          headers: accept_header_v1,
+          headers: accept_header(:v1),
           params: user_attributes,
           as: :json
         )

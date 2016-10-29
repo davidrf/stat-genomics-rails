@@ -1,7 +1,18 @@
 require "rails_helper"
 
 RSpec.describe User do
-  it { should have_secure_password }
+  describe "macros" do
+    it { should have_secure_password }
+    it { should accept_nested_attributes_for :root_directory_entry }
+  end
+
+  describe "associations" do
+    it do
+      should have_one(:root_directory_entry).
+        conditions(parent_id: nil).
+        class_name(DirectoryEntry)
+    end
+  end
 
   describe "validations" do
     subject { build(:user) }
