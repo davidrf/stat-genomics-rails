@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     resources :users, only: [:show, :create]
     resources :folders, only: :show, controller: :directory_entries
     constraints AuthenticatedConstraint.new do
-      resources :folders, only: :create, controller: :directory_entries
+      resources :folders, only: :create, controller: :directory_entries do
+        resources :files, only: :create, controller: :file_entries
+      end
     end
   end
 end

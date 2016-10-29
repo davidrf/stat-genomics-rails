@@ -20,6 +20,6 @@ class WardenFailureController < ActionController::Metal
   private
 
   def error_message
-    @error_message ||= request.env['warden'].message
+    @error_message ||= request.env["warden"].message
   end
 end

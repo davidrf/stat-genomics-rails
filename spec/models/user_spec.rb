@@ -8,9 +8,9 @@ RSpec.describe User do
 
   describe "associations" do
     it do
-      should have_one(:root_directory_entry)
-        .conditions(parent_id: nil)
-        .class_name('DirectoryEntry')
+      should have_one(:root_directory_entry).
+        conditions(parent_id: nil).
+        class_name(DirectoryEntry)
     end
   end
 
@@ -19,5 +19,4 @@ RSpec.describe User do
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email) }
   end
-
 end

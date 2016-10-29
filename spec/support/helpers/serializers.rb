@@ -27,12 +27,12 @@ module Helpers
     end
 
     def expected_directory_entry_hash(directory_entry)
-      expected_directory_entry_hash_without_associations(directory_entry).merge({
+      expected_directory_entry_hash_without_associations(directory_entry).merge(
         "user" => expected_user_hash(directory_entry.user),
         "parent" => directory_entry.parent && expected_directory_entry_hash_without_associations(directory_entry.parent),
         "folders" => expected_directory_entries_array(directory_entry.children.directory_entries),
         "files" => expected_file_entries_array(directory_entry.children.file_entries)
-      })
+      )
     end
 
     def expected_directory_entries_array(directory_entries)
@@ -48,6 +48,13 @@ module Helpers
         "created_at" => file_entry.created_at.as_json,
         "updated_at" => file_entry.updated_at.as_json,
       }
+    end
+
+    def expected_file_entry_hash(file_entry)
+      expected_file_entry_hash_without_associations(file_entry).merge(
+        "user" => expected_user_hash(file_entry.user),
+        "parent" => expected_file_entry_hash_without_associations(file_entry.parent)
+      )
     end
 
     def expected_file_entries_array(file_entries)

@@ -1,7 +1,7 @@
 module Strategies
   class AccessTokenAuthenticatable < ::Warden::Strategies::Base
     def valid?
-      env['HTTP_AUTHORIZATION'].present?
+      env["HTTP_AUTHORIZATION"].present?
     end
 
     def store?
@@ -11,10 +11,10 @@ module Strategies
     def authenticate!
       success!(user)
 
-      rescue JWT::ExpiredSignature
-        fail!(I18n.t('warden.token_expired'))
-      rescue ActiveRecord::RecordNotFound
-        fail!(I18n.t('warden.user_not_found'))
+    rescue JWT::ExpiredSignature
+      fail!(I18n.t("warden.token_expired"))
+    rescue ActiveRecord::RecordNotFound
+      fail!(I18n.t("warden.user_not_found"))
     end
 
     def user
@@ -30,7 +30,7 @@ module Strategies
     end
 
     def access_token
-      env['HTTP_AUTHORIZATION'].sub('Token token=', '')
+      env["HTTP_AUTHORIZATION"].sub("Token token=", "")
     end
   end
 end
